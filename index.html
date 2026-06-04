@@ -54,13 +54,13 @@
   border-right:1px solid rgba(26,51,37,.08);transition:color .2s,background .2s;white-space:nowrap}
 .sbl:last-child{border-right:none}
 .sbl:hover{color:#1A3325;background:rgba(184,136,30,.08)}
-.sbl.on{color:#B8881E}
+.sbl.on{color:#B8881E;font-weight:600;background:rgba(184,136,30,.1)}
 @media(prefers-color-scheme:dark){
   #totop{background:#22422F}
   #secbar{background:rgba(15,15,14,.95);border-color:rgba(255,255,255,.08)}
   .sbl{color:rgba(237,243,235,.4)}
   .sbl:hover{color:#EDF3EB;background:rgba(184,136,30,.1)}
-  .sbl.on{color:#B8881E}
+  .sbl.on{color:#B8881E;font-weight:600;background:rgba(184,136,30,.1)}
 }
 @media(max-width:768px){
   #secbar{display:none}
@@ -558,7 +558,7 @@ function st(id, t) { var e = g(id); if (e) e.textContent = t; }
 function render() {
   var c = C[lang];
   // Nav links
-  var nls = document.querySelectorAll('.nl,.sb-lnk');
+  var nls = document.querySelectorAll('.nl, .sbl');
   for (var i = 0; i < nls.length; i++) {
     if (c.nav[i]) nls[i].textContent = c.nav[i];
   }
@@ -657,7 +657,7 @@ function markSec() {
     var el = g(SECS[i]);
     if (el && el.getBoundingClientRect().top < 100) cur = SECS[i];
   }
-  var nls = document.querySelectorAll('.nl,.sb-lnk');
+  var nls = document.querySelectorAll('.nl, .sbl');
   for (var i = 0; i < nls.length; i++) {
     nls[i].classList.toggle('on', nls[i].getAttribute('href') === '#' + SECS[i] && SECS[i] === cur);
   }

@@ -11,6 +11,55 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <style>
 /* Fonts served locally — no external requests */
+
+/* Scroll to top */
+#totop{
+  position:fixed;bottom:28px;right:28px;z-index:800;
+  width:42px;height:42px;border-radius:50%;
+  background:var(--g1);border:1px solid rgba(184,136,30,.3);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s,background .2s;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);
+}
+#totop.show{opacity:1;pointer-events:all}
+#totop:hover{background:var(--g2);transform:translateY(-3px)}
+#totop svg{width:16px;height:16px;color:#EDF3EB}
+@media(max-width:768px){#totop{bottom:20px;right:20px;width:38px;height:38px}}
+
+/* Floating section indicator — visible when scrolled */
+#secbar{
+  position:fixed;top:calc(var(--NHs) + 8px);left:50%;transform:translateX(-50%);
+  z-index:490;
+  display:flex;gap:0;
+  background:var(--nb);
+  border:1px solid var(--brd);
+  border-radius:40px;
+  padding:0;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s;
+  white-space:nowrap;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  overflow:hidden;
+}
+#secbar.show{opacity:1;pointer-events:all}
+#secbar a{
+  font-size:.6rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink3);text-decoration:none;
+  padding:8px 14px;
+  transition:color .2s,background .2s;
+  border-right:1px solid var(--brd2);
+}
+#secbar a:last-child{border-right:none}
+#secbar a:hover{color:var(--ink);background:var(--gold-dim)}
+#secbar a.on{color:var(--gold)}
+@media(max-width:768px){
+  #secbar{display:none}
+  #totop{display:flex}
+}
+@media(min-width:769px) and (max-width:1100px){
+  #secbar a{padding:8px 10px;font-size:.58rem}
+}
 </style>
 <style>
 :root {
@@ -485,9 +534,9 @@ footer p{font-size:.68rem;color:var(--ink3);letter-spacing:.04em}
 <footer>
   <div class="fb">Wiesn Bär</div>
   <p id="ft"></p>
-  <div style="margin-top:12px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
-    <a href="/impressum.html" style="font-size:.68rem;color:var(--ink3);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ink3)'">Impressum</a>
-    <a href="/datenschutz.html" style="font-size:.68rem;color:var(--ink3);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ink3)'">Datenschutz</a>
+  <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+    <a href="/impressum.html" style="font-size:.72rem;color:#A8C9B0;text-decoration:none;letter-spacing:.1em;text-transform:uppercase">Impressum</a>
+    <a href="/datenschutz.html" style="font-size:.72rem;color:#A8C9B0;text-decoration:none;letter-spacing:.1em;text-transform:uppercase">Datenschutz</a>
   </div>
 </footer>
 
@@ -626,5 +675,13 @@ render();
 markSec();
 
 </script>
+
+<div id="secbar"><a href="#story" class="sb-lnk">Story</a><a href="#produkte" class="sb-lnk">Produkte</a><a href="#werte" class="sb-lnk">Qualität</a><a href="#wiesn2025" class="sb-lnk">Wiesn 2025</a><a href="#gallery" class="sb-lnk">Galerie</a><a href="#gruender" class="sb-lnk">Gründer</a><a href="#partner" class="sb-lnk">Partnership</a></div>
+
+<button id="totop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Nach oben">
+  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+    <path d="M9 14V4M4.5 8.5L9 4l4.5 4.5"/>
+  </svg>
+</button>
 </body>
 </html>

@@ -659,7 +659,8 @@ function markSec() {
   }
   var nls = document.querySelectorAll('.nl, .sbl');
   for (var i = 0; i < nls.length; i++) {
-    nls[i].classList.toggle('on', nls[i].getAttribute('href') === '#' + SECS[i] && SECS[i] === cur);
+    var href = nls[i].getAttribute('href');
+    nls[i].classList.toggle('on', href === '#' + cur);
   }
 }
 window.addEventListener('scroll', function() {

@@ -12,36 +12,7 @@
 <style>
 /* Fonts served locally — no external requests */
 
-/* Scroll to top */
-#totop{
-  position:fixed;bottom:28px;right:28px;z-index:800;
-  width:42px;height:42px;border-radius:50%;
-  background:var(--g1);border:1px solid rgba(184,136,30,.3);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;opacity:0;pointer-events:none;
-  transition:opacity .3s,transform .3s,background .2s;
-  box-shadow:0 4px 16px rgba(0,0,0,.2);
-}
-#totop.show{opacity:1;pointer-events:all}
-#totop:hover{background:var(--g2);transform:translateY(-3px)}
-#totop svg{width:16px;height:16px;color:#EDF3EB}
-@media(max-width:768px){#totop{bottom:20px;right:20px;width:38px;height:38px}}
 
-/* Floating section indicator — visible when scrolled */
-#secbar{
-  position:fixed;top:62px;left:50%;transform:translateX(-50%);
-  z-index:490;
-  display:flex;gap:0;
-  background:var(--nb);
-  border:1px solid var(--brd);
-  border-radius:40px;
-  padding:0;
-  opacity:0;pointer-events:none;
-  transition:opacity .35s;
-  white-space:nowrap;
-  box-shadow:0 4px 20px rgba(0,0,0,.15);
-  overflow:hidden;
-}
 #secbar.show{opacity:1;pointer-events:all}
 #secbar a{
   font-size:.6rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
@@ -59,6 +30,41 @@
 }
 @media(min-width:769px) and (max-width:1100px){
   #secbar a{padding:8px 10px;font-size:.58rem}
+}
+
+/* ── SCROLL TO TOP ── */
+#totop{position:fixed;bottom:28px;right:28px;z-index:9990;width:44px;height:44px;
+  border-radius:50%;background:#1A3325;border:1px solid rgba(184,136,30,.4);
+  cursor:pointer;opacity:0;pointer-events:none;
+  transition:opacity .3s ease,transform .2s ease;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  display:flex;align-items:center;justify-content:center;padding:0;}
+#totop:hover{background:#22422F;transform:translateY(-3px)}
+#totop svg{width:18px;height:18px;stroke:#EDF3EB;fill:none;stroke-width:2;stroke-linecap:round;pointer-events:none}
+/* ── FLOATING NAV PILL ── */
+#secbar{position:fixed;top:62px;left:50%;transform:translateX(-50%);
+  z-index:9980;display:flex;
+  background:rgba(246,248,245,.95);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(26,51,37,.12);border-radius:40px;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+  overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.12);}
+.sbl{font-size:.62rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(26,51,37,.5);text-decoration:none;padding:8px 14px;
+  border-right:1px solid rgba(26,51,37,.08);transition:color .2s,background .2s;white-space:nowrap}
+.sbl:last-child{border-right:none}
+.sbl:hover{color:#1A3325;background:rgba(184,136,30,.08)}
+.sbl.on{color:#B8881E}
+@media(prefers-color-scheme:dark){
+  #totop{background:#22422F}
+  #secbar{background:rgba(15,15,14,.95);border-color:rgba(255,255,255,.08)}
+  .sbl{color:rgba(237,243,235,.4)}
+  .sbl:hover{color:#EDF3EB;background:rgba(184,136,30,.1)}
+  .sbl.on{color:#B8881E}
+}
+@media(max-width:768px){
+  #secbar{display:none}
+  #totop{bottom:20px;right:20px;width:40px;height:40px}
 }
 </style>
 <style>
@@ -659,11 +665,13 @@ function markSec() {
 window.addEventListener('scroll', function() {
   var sy = window.scrollY;
   NAV.classList.toggle('scrolled', sy > 40);
-  var tb = document.getElementById('totop');
-  var sb = document.getElementById('secbar');
-  if (tb) tb.classList.toggle('show', sy > 200);
-  if (sb) sb.classList.toggle('show', sy > 40);
   markSec();
+  // scroll-to-top
+  var tb = document.getElementById('totop');
+  if (tb) { tb.style.opacity = sy > 200 ? '1' : '0'; tb.style.pointerEvents = sy > 200 ? 'all' : 'none'; }
+  // floating nav
+  var sb = document.getElementById('secbar');
+  if (sb) { sb.style.opacity = sy > 40 ? '1' : '0'; sb.style.pointerEvents = sy > 40 ? 'all' : 'none'; }
 }, { passive: true });
 
 // Fade-in on scroll
@@ -681,12 +689,9 @@ markSec();
 
 </script>
 
-<div id="secbar"><a href="#story" class="sb-lnk">Story</a><a href="#produkte" class="sb-lnk">Produkte</a><a href="#werte" class="sb-lnk">Qualität</a><a href="#wiesn2025" class="sb-lnk">Wiesn 2025</a><a href="#gallery" class="sb-lnk">Galerie</a><a href="#gruender" class="sb-lnk">Gründer</a><a href="#partner" class="sb-lnk">Partnership</a></div>
 
-<button id="totop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Nach oben">
-  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-    <path d="M9 14V4M4.5 8.5L9 4l4.5 4.5"/>
-  </svg>
-</button>
+
+<div id="secbar"><a href="#story" class="sbl">Story</a><a href="#produkte" class="sbl">Produkte</a><a href="#werte" class="sbl">Qualität</a><a href="#wiesn2025" class="sbl">Wiesn 2025</a><a href="#gallery" class="sbl">Galerie</a><a href="#gruender" class="sbl">Gründer</a><a href="#partner" class="sbl">Partnership</a></div>
+<div id="totop" onclick="window.scrollTo({top:0,behavior:'smooth'})" role="button" aria-label="Nach oben"><svg viewBox="0 0 18 18"><path d="M9 13V5M4.5 9L9 4.5 13.5 9"/></svg></div>
 </body>
 </html>

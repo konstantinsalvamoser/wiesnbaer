@@ -29,7 +29,7 @@
 
 /* Floating section indicator — visible when scrolled */
 #secbar{
-  position:fixed;top:calc(var(--NHs) + 8px);left:50%;transform:translateX(-50%);
+  position:fixed;top:62px;left:50%;transform:translateX(-50%);
   z-index:490;
   display:flex;gap:0;
   background:var(--nb);
@@ -51,7 +51,7 @@
   border-right:1px solid var(--brd2);
 }
 #secbar a:last-child{border-right:none}
-#secbar a:hover{color:var(--ink);background:var(--gold-dim)}
+#secbar a:hover{color:var(--ink);background:var(--gold-d)}
 #secbar a.on{color:var(--gold)}
 @media(max-width:768px){
   #secbar{display:none}
@@ -552,7 +552,7 @@ function st(id, t) { var e = g(id); if (e) e.textContent = t; }
 function render() {
   var c = C[lang];
   // Nav links
-  var nls = document.querySelectorAll('.nl');
+  var nls = document.querySelectorAll('.nl,.sb-lnk');
   for (var i = 0; i < nls.length; i++) {
     if (c.nav[i]) nls[i].textContent = c.nav[i];
   }
@@ -651,13 +651,18 @@ function markSec() {
     var el = g(SECS[i]);
     if (el && el.getBoundingClientRect().top < 100) cur = SECS[i];
   }
-  var nls = document.querySelectorAll('.nl');
+  var nls = document.querySelectorAll('.nl,.sb-lnk');
   for (var i = 0; i < nls.length; i++) {
     nls[i].classList.toggle('on', nls[i].getAttribute('href') === '#' + SECS[i] && SECS[i] === cur);
   }
 }
 window.addEventListener('scroll', function() {
-  NAV.classList.toggle('scrolled', window.scrollY > 40);
+  var sy = window.scrollY;
+  NAV.classList.toggle('scrolled', sy > 40);
+  var tb = document.getElementById('totop');
+  var sb = document.getElementById('secbar');
+  if (tb) tb.classList.toggle('show', sy > 200);
+  if (sb) sb.classList.toggle('show', sy > 40);
   markSec();
 }, { passive: true });
 
